@@ -28,10 +28,14 @@ RUN apt-get update --allow-releaseinfo-change \
 
 
 # Install PhantomJs for Shiny testing
-RUN export OPENSSL_CONF=/etc/ssl/ \
- && mkdir ~/tmp \
- && cd ~/tmp \
- && wget --max-redirect=40 http://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 \
- && tar xf phantomjs-2.1.1-linux-x86_64.tar.bz2 \
- && mv phantomjs-2.1.1-linux-x86_64 phantomjs \
- && ln -s ~/tmp/phantomjs/bin/phantomjs /usr/bin/phantomjs
+ENV OPENSSL_CONF=/etc/ssl/
+RUN apt-get update --allow-releaseinfo-change \
+ && apt-get install build-essential chrpath libssl-dev libxft-dev -y \
+ && apt-get install libfreetype6 libfreetype6-dev -y \
+ && apt-get install libfontconfig1 libfontconfig1-dev -y \
+ && cd ~ \
+ && export PHANTOM_JS="phantomjs-2.1.1-linux-x86_64" \
+ && wget --max-redirect=50 http://bitbucket.org/ariya/phantomjs/downloads/$PHANTOM_JS.tar.bz2 \
+ && tar xvjf $PHANTOM_JS.tar.bz2 \
+ && mv $PHANTOM_JS /usr/local/share \
+ && ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /usr/local/bin
