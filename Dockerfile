@@ -1,4 +1,4 @@
-FROM r-base:latest
+FROM r-base:3.6.3
 
 # Make R ready for packaging
 RUN apt-get update -qq
