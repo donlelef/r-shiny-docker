@@ -1,7 +1,7 @@
 FROM r-base:latest
 
 # Make R ready for packaging
-RUN apt-get update -qq 
+RUN apt-get update -qq
 RUN apt-get -y --no-install-recommends install \
   libssl-dev \
   libcurl4-openssl-dev \
@@ -17,6 +17,7 @@ RUN apt-get update --allow-releaseinfo-change \
         apt-transport-https \
         curl \
         gnupg \
+        unixodbc \
         unixodbc-dev \
  && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
@@ -44,5 +45,5 @@ RUN R CMD INSTALL /tmp/ROracle.tar.gz
 
 # Install PhantomJs for Shiny testing
 ENV OPENSSL_CONF=/etc/ssl/
-RUN R -e 'install.packages("shinytest")' 
+RUN R -e 'install.packages("shinytest")'
 RUN R -e 'shinytest::installDependencies()'
