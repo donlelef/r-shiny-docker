@@ -27,22 +27,6 @@ RUN apt-get update --allow-releaseinfo-change \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf /tmp/*
 
-# Install Oracle Drivers
-RUN apt-get update && apt-get install -y alien libaio1
-RUN mkdir oracle_downloads && cd oracle_downloads \
-  && wget https://download.oracle.com/otn_software/linux/instantclient/19600/oracle-instantclient19.6-basic-19.6.0.0.0-1.x86_64.rpm \
-  && wget https://download.oracle.com/otn_software/linux/instantclient/19600/oracle-instantclient19.6-devel-19.6.0.0.0-1.x86_64.rpm \
-  && alien -i oracle-instantclient19.6-basic-19.6.0.0.0-1.x86_64.rpm \
-  && alien -i oracle-instantclient19.6-devel-19.6.0.0.0-1.x86_64.rpm \
-  && cd ..
-ENV LD_LIBRARY_PATH=/usr/lib/oracle/19.6/client64/lib:$LD_LIBRARY_PATH
-ENV ORACLE_HOME=/usr/lib/oracle/19.6/client64
-ENV PATH=$PATH:$ORACLE_HOME/bin
-
-# Install ROracle
-COPY ROracle.tar.gz /tmp/
-RUN R CMD INSTALL /tmp/ROracle.tar.gz
-
 # Install PhantomJs for Shiny testing
 ENV OPENSSL_CONF=/etc/ssl/
 RUN R -e 'install.packages("shinytest")'
