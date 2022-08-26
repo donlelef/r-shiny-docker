@@ -1,4 +1,4 @@
-FROM r-base:latest
+FROM r-base:4.2.1
 
 # Make R ready for packaging
 RUN apt-get update -qq
@@ -7,9 +7,7 @@ RUN apt-get -y --no-install-recommends install \
   libcurl4-openssl-dev \
   libssh2-1-dev \
   libxml2-dev
-RUN install2.r --error \
-    devtools \
-    roxygen2
+RUN R -e 'install.packages("devtools")'
 
 # Install SQL Server dirver
 RUN apt-get update --allow-releaseinfo-change \
