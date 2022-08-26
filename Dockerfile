@@ -3,6 +3,13 @@ FROM r-base:4.2.1
 # Make R ready for packaging
 RUN apt-get update -qq
 RUN apt-get -y --no-install-recommends install \
+  libfontconfig1-dev \
+  libharfbuzz-dev \
+  libfribidi-dev \
+  libfreetype6-dev \
+  libpng-dev \
+  libtiff5-dev \
+  libjpeg-dev \
   libssl-dev \
   libcurl4-openssl-dev \
   libssh2-1-dev \
